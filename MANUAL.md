@@ -101,8 +101,8 @@ the same feature set to Bitwig:
 
 | Platform | Extension | Tested with Bitwig and hardware |
 |---|---|---|
-| Windows 10/11 | `FaderPort4irmann.bwextension` and installer | in progress |
-| macOS | `FaderPort4irmann.bwextension` (same file) | **no** |
+| Windows 10/11 | `FaderPort4irmann.bwextension` and installer (`.exe`) | in progress |
+| macOS | `FaderPort4irmann.bwextension` (same file) and installer (`.pkg`) | **no** (the installer is test-installed by CI) |
 | Linux | `FaderPort4irmann.bwextension` (same file) | **no** |
 
 Feedback is very welcome, either as a
@@ -119,6 +119,20 @@ Feedback is very welcome, either as a
 
 To uninstall, use Windows Settings → Apps → "4irmann's FaderPort Driver for Bitwig Studio". This
 removes the extension, the manual and the uninstaller itself.
+
+### macOS installer
+
+1. Download `bitwig-faderport-driver-<version>.pkg` from the
+   [releases page](https://github.com/4irmann/bitwig-faderport-driver/releases).
+2. Quit Bitwig Studio and open the package. The package is not signed with an Apple developer ID, so macOS
+   asks for confirmation the first time: right-click the file → *Open* → *Open*. On recent macOS versions,
+   macOS may refuse at first; then open System Settings → Privacy & Security and click *Open Anyway*.
+3. The installer copies the extension to `~/Documents/Bitwig Studio/Extensions/` of your user account
+   ("Install for me only"). No administrator password is needed.
+4. Start Bitwig and add the controller, see [Adding the controller in Bitwig](#adding-the-controller-in-bitwig).
+
+To uninstall, delete `~/Documents/Bitwig Studio/Extensions/FaderPort4irmann.bwextension`. If you moved your
+Bitwig user folder (Settings → Locations), copy the extension there manually instead.
 
 ### Manual installation (all platforms)
 

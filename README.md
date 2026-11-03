@@ -33,6 +33,19 @@ troubleshooting.
 
 To uninstall, use Windows Settings → Apps → "4irmann's FaderPort Driver for Bitwig Studio".
 
+### macOS installer
+
+1. Download `bitwig-faderport-driver-<version>.pkg` from the
+   [releases](https://github.com/4irmann/bitwig-faderport-driver/releases).
+2. Quit Bitwig Studio and open the package. It is not signed, so macOS asks for confirmation the first time:
+   right-click the file → *Open* → *Open*. On recent macOS versions, use System Settings →
+   Privacy & Security → *Open Anyway* instead.
+3. The installer copies the extension to `~/Documents/Bitwig Studio/Extensions/` of your user account.
+   No administrator password is needed.
+4. Continue with step 2 below.
+
+To uninstall, delete `~/Documents/Bitwig Studio/Extensions/FaderPort4irmann.bwextension`.
+
 ### Manual installation (all platforms)
 
 1. Copy `FaderPort4irmann.bwextension` to the Bitwig extensions folder:
@@ -118,9 +131,19 @@ The Windows installer needs [Inno Setup 6](https://jrsoftware.org/isinfo.php):
 iscc /DAppVersion=1.0.0 installer\windows\bitwig-faderport-driver.iss
 ```
 
-It creates `dist/bitwig-faderport-driver-<version>-setup.exe`. CI (`.github/workflows/build.yml`) builds
-and tests everything on every push. A tag `v<version>` creates a GitHub release with the installer and the
-extension. The Bitwig API comes
+It creates `dist/bitwig-faderport-driver-<version>-setup.exe`.
+
+The macOS installer is built on a Mac with the Xcode command line tools (`pkgbuild`, `productbuild`):
+
+```
+sh installer/macos/build-pkg.sh 1.0.0 target/FaderPort4irmann.bwextension dist
+```
+
+CI (`.github/workflows/build.yml`) builds and tests everything on every push. It also test-installs the
+macOS package on a Mac runner. A tag `v<version>` creates a GitHub release with both installers and the
+extension.
+
+The Bitwig API comes
 from Bitwig's Maven repository (`com.bitwig:extension-api:25`). Compatibility with older Bitwig versions
 comes from the required API version 20 declared in the extension. Bitwig refuses calls to API functions newer than this version.
 
