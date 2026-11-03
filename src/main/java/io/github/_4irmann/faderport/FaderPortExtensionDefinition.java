@@ -53,11 +53,14 @@ public class FaderPortExtensionDefinition extends ControllerExtensionDefinition
       return "FaderPort Classic (4irmann)";
    }
 
-   /** API 18 = Bitwig Studio 5.0. Only API functions available since then are used. */
+   /**
+    * API 20 = Bitwig Studio 5.2, needed for RangedValue.discreteValueCount() (discrete
+    * remote controls). Bitwig refuses calls to functions newer than the declared version.
+    */
    @Override
    public int getRequiredAPIVersion()
    {
-      return 18;
+      return 20;
    }
 
    @Override

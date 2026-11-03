@@ -15,7 +15,7 @@ fills that gap.
 - Transport, loop, punch, cue markers, metronome, undo/redo, mixer/arrange layouts
 - One `.bwextension` file for Windows, macOS and Linux
 
-Requires **Bitwig Studio 5.0 or later** (controller API 18). Developed with Bitwig Studio 6.0.
+Requires **Bitwig Studio 5.3 or later** (controller API 20). Developed with Bitwig Studio 6.0.
 
 ## Installation
 
@@ -119,7 +119,7 @@ It creates `dist/bitwig-faderport-driver-<version>-setup.exe`. CI (`.github/work
 and tests everything on every push. A tag `v<version>` creates a GitHub release with the installer and the
 extension. The Bitwig API comes
 from Bitwig's Maven repository (`com.bitwig:extension-api:25`). Compatibility with older Bitwig versions
-comes from the required API version 18 declared in the extension.
+comes from the required API version 20 declared in the extension. Bitwig refuses calls to API functions newer than this version.
 
 ## Structure
 
