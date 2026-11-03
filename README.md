@@ -17,6 +17,9 @@ fills that gap.
 
 Requires **Bitwig Studio 5.3 or later** (controller API 20). Developed with Bitwig Studio 6.0.
 
+**Read the [manual](MANUAL.md)** for the details: controls, modes, automation, preferences and
+troubleshooting.
+
 ## Installation
 
 ### Windows installer

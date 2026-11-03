@@ -68,14 +68,17 @@ de.OpenManual=Handbuch öffnen
 [Files]
 Source: "{#ExtensionPath}"; DestDir: "{app}\Extensions"; DestName: "{#ExtensionFile}"; Flags: ignoreversion
 Source: "..\..\README.md"; DestDir: "{localappdata}\4irmann\bitwig-faderport-driver"; Flags: ignoreversion
+Source: "..\..\MANUAL.md"; DestDir: "{localappdata}\4irmann\bitwig-faderport-driver"; Flags: ignoreversion
+Source: "..\..\docs\*"; DestDir: "{localappdata}\4irmann\bitwig-faderport-driver\docs"; Flags: ignoreversion
 Source: "..\..\LICENSE"; DestDir: "{localappdata}\4irmann\bitwig-faderport-driver"; DestName: "LICENSE.txt"; Flags: ignoreversion
 Source: "..\..\NOTICE"; DestDir: "{localappdata}\4irmann\bitwig-faderport-driver"; DestName: "NOTICE.txt"; Flags: ignoreversion
 
 [Run]
 Filename: "{code:BitwigExe}"; Description: "{cm:StartBitwig}"; Flags: postinstall nowait skipifsilent; Check: BitwigExeExists
-Filename: "https://github.com/4irmann/bitwig-faderport-driver#readme"; Description: "{cm:OpenManual}"; Flags: postinstall shellexec nowait skipifsilent unchecked
+Filename: "https://github.com/4irmann/bitwig-faderport-driver/blob/main/MANUAL.md"; Description: "{cm:OpenManual}"; Flags: postinstall shellexec nowait skipifsilent unchecked
 
 [UninstallDelete]
+Type: dirifempty; Name: "{localappdata}\4irmann\bitwig-faderport-driver\docs"
 Type: dirifempty; Name: "{localappdata}\4irmann\bitwig-faderport-driver"
 Type: dirifempty; Name: "{localappdata}\4irmann"
 
