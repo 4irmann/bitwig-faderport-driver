@@ -10,6 +10,8 @@ jobs:
   build:
     # one build is enough: the .bwextension runs on all platforms; Windows also builds the installer
     runs-on: windows-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -44,9 +46,33 @@ jobs:
             target/FaderPort4irmann.bwextension
             dist/*.exe
 
+  macos-installer:
+    needs: build
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: bitwig-faderport-driver
+          path: artifacts
+      - name: Build .pkg
+        run: sh installer/macos/build-pkg.sh "${{ needs.build.outputs.version }}" artifacts/target/FaderPort4irmann.bwextension dist
+      - name: Test install into the runner's home
+        run: |
+          pkg="dist/bitwig-faderport-driver-${{ needs.build.outputs.version }}.pkg"
+          pkgutil --payload-files "$pkg"
+          installer -pkg "$pkg" -target CurrentUserHomeDirectory
+          installed="$HOME/Documents/Bitwig Studio/Extensions/FaderPort4irmann.bwextension"
+          ls -la "$installed"
+          cmp "$installed" artifacts/target/FaderPort4irmann.bwextension
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bitwig-faderport-driver-macos
+          path: dist/*.pkg
+
   release:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: build
+    needs: [build, macos-installer]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -54,13 +80,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: bitwig-faderport-driver
           path: artifacts
       - name: Create release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir release
-          find artifacts -type f \( -name '*-setup.exe' -o -name '*.bwextension' \) -exec cp {} release/ \;
+          find artifacts -type f \( -name '*-setup.exe' -o -name '*.pkg' -o -name '*.bwextension' \) -exec cp {} release/ \;
           ls -la release
           gh release create "$GITHUB_REF_NAME" release/* --title "$GITHUB_REF_NAME" --generate-notes
